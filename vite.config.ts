@@ -8,26 +8,39 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['icon.svg', 'icon-192x192.png', 'icon-512x512.png'],
       manifest: {
-        name: 'Project Sales',
-        short_name: 'SalesApp',
-        description: 'Sales and Inventory Management',
+        name: 'StockFlow - Inventory Management',
+        short_name: 'StockFlow',
+        description: 'Complete Stock Management Inventory System',
         theme_color: '#2563eb',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',
+        orientation: 'portrait-primary',
+        scope: '/',
         icons: [
+          {
+            src: '/icon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any maskable'
+          },
           {
             src: '/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any'
           },
           {
             src: '/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-          },
+            purpose: 'any'
+          }
         ],
+        categories: ['business', 'productivity'],
+        lang: 'en'
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,ico}'],

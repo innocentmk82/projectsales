@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
   const [queueModalOpen, setQueueModalOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstall, setShowInstall] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
     const updateStatus = () => setIsOnline(navigator.onLine);
@@ -23,22 +24,46 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // Check if app is already installed
+    if (window.matchMedia('(display-mode: standalone)').matches || 
+        (window.navigator as any).standalone === true) {
+      setIsInstalled(true);
+      setShowInstall(false);
+    }
+
     const handler = (e: any) => {
       e.preventDefault();
+      console.log('beforeinstallprompt event fired');
       setDeferredPrompt(e);
       setShowInstall(true);
     };
+
     window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
+    
+    // Listen for successful installation
+    window.addEventListener('appinstalled', () => {
+      console.log('App was installed');
+      setIsInstalled(true);
+      setShowInstall(false);
+      setDeferredPrompt(null);
+    });
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+      window.removeEventListener('appinstalled', () => {});
+    };
   }, []);
 
   const handleInstall = async () => {
     if (deferredPrompt) {
+      console.log('Prompting for installation...');
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
+      console.log('Installation outcome:', outcome);
       if (outcome === 'accepted') {
         setShowInstall(false);
         setDeferredPrompt(null);
+        setIsInstalled(true);
       }
     }
   };
@@ -99,14 +124,19 @@ const Navbar: React.FC = () => {
             </button>
           </div>
           <div className="ml-auto flex items-center gap-4">
-            {showInstall && (
+            {showInstall && !isInstalled && (
               <button
                 onClick={handleInstall}
-                className="flex items-center px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200 text-xs font-semibold"
-                title="Install App"
+                className="flex items-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-semibold"
+                title="Install StockFlow App"
               >
-                <Download className="h-4 w-4 mr-1" /> Install App
+                <Download className="h-4 w-4 mr-2" /> Install App
               </button>
+            )}
+            {isInstalled && (
+              <span className="flex items-center px-3 py-2 bg-blue-100 text-blue-800 rounded-lg text-sm font-semibold">
+                <Package className="h-4 w-4 mr-2" /> Installed
+              </span>
             )}
             <button
               onClick={() => setQueueModalOpen(true)}
