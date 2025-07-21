@@ -43,7 +43,7 @@ const ProductSelector: React.FC<ProductSelectorProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[95vh] overflow-hidden my-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-w-[95vw] my-4 max-h-[95vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Select Products

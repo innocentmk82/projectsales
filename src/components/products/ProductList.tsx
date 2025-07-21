@@ -151,7 +151,7 @@ const ProductList: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -161,7 +161,7 @@ const ProductList: React.FC = () => {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-32 sm:h-48 object-cover"
                 />
               )}
               <div className="p-4">

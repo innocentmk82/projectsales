@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Navbar from './Navbar';
@@ -10,17 +10,21 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { currentUser } = useAuth();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
 
+  const toggleSidebar = () => setSidebarOpen((open) => !open);
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <Navbar />
+      <Navbar onMenuClick={toggleSidebar} />
       <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 lg:p-6 lg:ml-64 w-full min-w-0">
+        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <main className="flex-1 p-4 lg:p-6 w-full min-w-0">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

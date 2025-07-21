@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { User, Moon, Sun, LogOut, Package, RefreshCw, Download } from 'lucide-react';
+import { User, Moon, Sun, LogOut, Package, RefreshCw, Download, Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import QueuedActionsModal from './QueuedActionsModal';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onMenuClick: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const { currentUser, logout } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -33,7 +37,6 @@ const Navbar: React.FC = () => {
 
     const handler = (e: any) => {
       e.preventDefault();
-      console.log('beforeinstallprompt event fired');
       setDeferredPrompt(e);
       setShowInstall(true);
     };
@@ -42,7 +45,6 @@ const Navbar: React.FC = () => {
     
     // Listen for successful installation
     window.addEventListener('appinstalled', () => {
-      console.log('App was installed');
       setIsInstalled(true);
       setShowInstall(false);
       setDeferredPrompt(null);
@@ -56,10 +58,8 @@ const Navbar: React.FC = () => {
 
   const handleInstall = async () => {
     if (deferredPrompt) {
-      console.log('Prompting for installation...');
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      console.log('Installation outcome:', outcome);
       if (outcome === 'accepted') {
         setShowInstall(false);
         setDeferredPrompt(null);
@@ -79,14 +79,22 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:pl-72">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-16 items-center">
+          {/* Hamburger for mobile */}
+          <button
+            className="lg:hidden p-2 mr-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+            onClick={onMenuClick}
+            aria-label="Open sidebar menu"
+            type="button"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
           <div className="flex items-center">
             <Package className="h-8 w-8 text-blue-600 dark:text-blue-400" />
             <span className="ml-2 text-lg lg:text-xl font-bold text-gray-900 dark:text-white">
               StockFlow
             </span>
           </div>
-          
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleTheme}
@@ -94,7 +102,6 @@ const Navbar: React.FC = () => {
             >
               {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
-            
             <div className="hidden sm:flex items-center space-x-3">
               <div className="flex items-center space-x-2">
                 <User className="h-5 w-5 text-gray-500 dark:text-gray-400" />
@@ -107,7 +114,6 @@ const Navbar: React.FC = () => {
                   </p>
                 </div>
               </div>
-              
               <button
                 onClick={handleLogout}
                 className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
@@ -115,7 +121,6 @@ const Navbar: React.FC = () => {
                 <LogOut className="h-5 w-5" />
               </button>
             </div>
-            
             <button
               onClick={handleLogout}
               className="sm:hidden p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
