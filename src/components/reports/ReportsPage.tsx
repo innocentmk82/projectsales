@@ -54,8 +54,8 @@ const ReportsPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reports & Analytics</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">Reports & Analytics</h1>
+          <p className="mt-2 text-sm lg:text-base text-gray-600 dark:text-gray-400">
             Track sales performance and inventory insights
           </p>
         </div>
@@ -63,7 +63,7 @@ const ReportsPage: React.FC = () => {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value as 'daily' | 'weekly' | 'monthly')}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm lg:text-base"
           >
             <option value="daily">Today</option>
             <option value="weekly">This Week</option>
@@ -71,9 +71,9 @@ const ReportsPage: React.FC = () => {
           </select>
           <button
             onClick={() => setShowExport(true)}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
+            className="flex items-center px-3 lg:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm lg:text-base"
           >
-            <Download className="h-5 w-5 mr-2" />
+            <Download className="h-4 w-4 lg:h-5 lg:w-5 mr-2" />
             Export
           </button>
         </div>
@@ -81,7 +81,7 @@ const ReportsPage: React.FC = () => {
 
       {/* Stats Cards */}
       {analytics && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center">
               <div className="p-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400">

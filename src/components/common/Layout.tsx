@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Navbar onMenuClick={toggleSidebar} />
       <div className="flex">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-        <main className="flex-1 p-4 lg:p-6 w-full min-w-0">
+        <main className="flex-1 p-3 lg:p-6 w-full min-w-0">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

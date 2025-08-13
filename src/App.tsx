@@ -11,6 +11,7 @@ import ProductList from './components/products/ProductList';
 import SalesPage from './components/sales/SalesPage';
 import RestockPage from './components/restock/RestockPage';
 import ReportsPage from './components/reports/ReportsPage';
+import AttendantManagement from './components/users/AttendantManagement';
 
 
 function App() {
@@ -46,6 +47,11 @@ function App() {
                 <Route path="/reports" element={
                   <Layout>
                     <ReportsPage />
+                  </Layout>
+                } />
+                <Route path="/attendants" element={
+                  <Layout>
+                    <AttendantManagement />
                   </Layout>
                 } />
               </Routes>

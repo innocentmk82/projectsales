@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { User, Moon, Sun, LogOut, Package, RefreshCw, Download, Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import PasswordChangeModal from '../auth/PasswordChangeModal';
 import QueuedActionsModal from './QueuedActionsModal';
 
 interface NavbarProps {
@@ -16,6 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstall, setShowInstall] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
     const updateStatus = () => setIsOnline(navigator.onLine);
@@ -109,9 +111,19 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                   <p className="text-gray-900 dark:text-white font-medium">
                     {currentUser?.email}
                   </p>
-                  <p className="text-gray-500 dark:text-gray-400 capitalize">
-                    {currentUser?.role}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-gray-500 dark:text-gray-400 capitalize">
+                      {currentUser?.role}
+                    </p>
+                    {currentUser?.isTemporaryPassword && (
+                      <button
+                        onClick={() => setShowPasswordModal(true)}
+                        className="text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300 px-2 py-1 rounded hover:bg-yellow-200 dark:hover:bg-yellow-900/30"
+                      >
+                        Change Password
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
               <button
@@ -158,6 +170,15 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
         </div>
       </div>
       <QueuedActionsModal open={queueModalOpen} onClose={() => setQueueModalOpen(false)} />
+      {showPasswordModal && (
+        <PasswordChangeModal
+          onClose={() => setShowPasswordModal(false)}
+          onSuccess={() => {
+            setShowPasswordModal(false);
+            // Optionally show success message
+          }}
+        />
+      )}
     </nav>
   );
 };

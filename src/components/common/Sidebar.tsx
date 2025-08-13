@@ -6,7 +6,7 @@ import {
   ShoppingCart, 
   TrendingUp, 
   BarChart3,
-  Plus,
+  Users,
   X
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -48,6 +48,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       name: 'Reports',
       path: '/reports',
       icon: BarChart3,
+      roles: ['admin']
+    },
+    {
+      name: 'Attendants',
+      path: '/attendants',
+      icon: Users,
       roles: ['admin']
     }
   ];

@@ -3,6 +3,13 @@ export interface User {
   email: string;
   role: 'admin' | 'attendant';
   displayName?: string;
+  active: boolean;
+  isTemporaryPassword?: boolean;
+  createdBy?: string;
+  createdAt: Date;
+  passwordUpdatedAt?: Date;
+  deactivatedAt?: Date;
+  reactivatedAt?: Date;
 }
 
 export interface Product {
